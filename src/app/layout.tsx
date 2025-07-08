@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Noto_Sans_Arabic } from "next/font/google";
+import { Toaster } from "sonner";
+import "../styles/global.scss";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const notoSansArabic = Noto_Sans_Arabic({
+  variable: "--font-noto-sans-arabic",
+  subsets: ["arabic"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -24,7 +21,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={notoSansArabic.variable}>
+        <Toaster
+          richColors
+          dir="rtl"
+          toastOptions={{
+            classNames: {
+              toast: "sonner-desc",
+              description: "sonner-desc",
+              actionButton: "sonner-desc",
+              cancelButton: "sonner-desc",
+            },
+          }}
+        />
         {children}
       </body>
     </html>

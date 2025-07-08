@@ -1,0 +1,56 @@
+@use "@/styles/variables" as *;
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
+}
+
+.card {
+  background-color: $card-bg;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 40px rgba(49, 4, 55, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    padding: 1.5rem;
+    border-radius: 12px;
+    gap: 1rem;
+  }
+}
+
+.avatar {
+  min-height: 100px;
+  min-width: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid $primary-color;
+
+  @media (max-width: 480px) {
+    min-height: 80px;
+    min-width: 80px;
+  }
+}
+
+.welcome {
+  color: $primary-text;
+  font-size: 1.5rem;
+  margin: 0;
+
+  @media (max-width: 480px) {
+    font-size: 1.25rem;
+  }
+}

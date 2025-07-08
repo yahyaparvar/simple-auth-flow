@@ -1,0 +1,46 @@
+@use "@/styles/variables" as *;
+@use "sass:color";
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+
+  label {
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    color: $label-color;
+    font-weight: 500;
+  }
+
+  input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid $input-border;
+    border-radius: 6px;
+    background-color: $input-bg;
+    color: $input-text;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: border-color 0.3s, background-color 0.3s;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      background-color: color.adjust($input-bg, $lightness: -2%);
+    }
+
+    &::placeholder {
+      color: $placeholder-color;
+      opacity: 0.85;
+    }
+  }
+
+  .errorInput {
+    border-color: $error-color;
+  }
+
+  .errorText {
+    margin-top: 0.25rem;
+    color: $error-color;
+    font-size: 0.75rem;
+  }
+}

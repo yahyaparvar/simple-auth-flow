@@ -1,0 +1,81 @@
+@use "@/styles/variables" as *;
+@use "sass:color";
+
+.button {
+  display: inline-flex; // Enables gap and alignment
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; // Space between icon and text
+
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:disabled {
+    background-color: $button-disabled-bg;
+    color: $button-disabled-text;
+    cursor: not-allowed;
+  }
+}
+
+.small {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+
+  .iconLeft,
+  .iconRight {
+    font-size: 0.9em;
+  }
+}
+
+.medium {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+
+  .iconLeft,
+  .iconRight {
+    font-size: 1em;
+  }
+}
+
+.large {
+  font-size: 1.125rem;
+  padding: 0.75rem 1.25rem;
+
+  .iconLeft,
+  .iconRight {
+    font-size: 1.1em;
+  }
+}
+
+.primary {
+  background-color: $primary-color;
+  color: $primary-text;
+}
+
+.secondary {
+  background-color: color.adjust($card-bg, $lightness: 10%);
+  color: $primary-text;
+
+  &:hover {
+    background-color: color.adjust($card-bg, $lightness: 15%);
+  }
+
+  &:active {
+    background-color: color.adjust($card-bg, $lightness: 5%);
+  }
+}
+
+.iconLeft,
+.iconRight {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.label {
+  display: inline-block;
+}
