@@ -6,17 +6,17 @@ import * as Yup from "yup";
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { convertPersianDigitsToEnglish } from "@/utils/convertPersianDigits";
+import { motion } from "framer-motion"; // 👈 Import motion
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import styles from "./Auth.module.scss";
 
 const validationSchema = Yup.object({
   phone: Yup.string()
     .transform((value) => convertPersianDigitsToEnglish(value))
-    .test(
-      "is-valid-phone",
-      "لطفا اعداد را به صورت لاتین وارد کنید",
-      (value) => {
-        return /^[0-9]*$/.test(value ?? "");
-      }
+    .test("is-valid-phone", "لطفا اعداد را به صورت لاتین وارد کنید", (value) =>
+      /^[0-9]*$/.test(value ?? "")
     )
     .matches(/^09\d{9}$/, "شماره تلفن معتبر نیست")
     .required("شماره تلفن الزامیست"),
@@ -27,6 +27,18 @@ interface FormValues {
 }
 
 const AuthPage = () => {
+  const router = useRouter();
+  const [loadingUserData, setLoadingUserData] = useState(true);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      router.replace("/dashboard");
+    } else {
+      setLoadingUserData(false);
+    }
+  }, [router]);
+
   const formik = useFormik<FormValues>({
     initialValues: {
       phone: "",
@@ -37,19 +49,30 @@ const AuthPage = () => {
       { setSubmitting, setFieldError }: FormikHelpers<FormValues>
     ) => {
       try {
-        // I'm gonna call the api to get the user data
+        const res = await fetch("https://randomuser.me/api/?results=1&nat=us");
+        const data = await res.json();
+        const user = data.results[0];
+        localStorage.setItem("user", JSON.stringify(user));
+        router.replace("/dashboard");
+        toast.success("بسیار خوش اومدی 🎉");
       } catch (error) {
         console.log(error);
         setFieldError("phone", "خطا در ورود. لطفاً دوباره تلاش کنید.");
-      } finally {
         setSubmitting(false);
       }
     },
   });
 
+  if (loadingUserData) return null;
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.formContainer}>
+      <motion.div
+        className={styles.formContainer}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+      >
         <h1 className={styles.title}>ورود به دشبورد</h1>
 
         <form onSubmit={formik.handleSubmit} noValidate>
@@ -68,13 +91,14 @@ const AuthPage = () => {
             required
             minLength={11}
             maxLength={11}
+            disabled={formik.isSubmitting}
           />
 
           <Button fullWidth type="submit" disabled={formik.isSubmitting}>
             {formik.isSubmitting ? "در حال ورود..." : "ورود"}
           </Button>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

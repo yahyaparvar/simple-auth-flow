@@ -1,8 +1,9 @@
 @use "@/styles/variables" as *;
+@use "sass:color";
 .inputGroup {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.75rem; 
+  margin-bottom: 0.75rem;
 
   label {
     margin-bottom: 0.25rem;
@@ -24,7 +25,7 @@
     &:focus {
       outline: none;
       border-color: $primary-color;
-      background-color: darken($input-bg, 2%);
+      background-color: color.adjust($input-bg, $lightness: -2%);
     }
 
     &::placeholder {

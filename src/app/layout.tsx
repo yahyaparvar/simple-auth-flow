@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Arabic } from "next/font/google";
+import { Toaster } from "sonner";
 import "../styles/global.scss";
 
 const notoSansArabic = Noto_Sans_Arabic({
@@ -20,7 +21,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={notoSansArabic.variable}>{children}</body>
+      <body className={notoSansArabic.variable}>
+        <Toaster
+          richColors
+          dir="rtl"
+          toastOptions={{
+            classNames: {
+              toast: "sonner-desc",
+              description: "sonner-desc",
+              actionButton: "sonner-desc",
+              cancelButton: "sonner-desc",
+            },
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
