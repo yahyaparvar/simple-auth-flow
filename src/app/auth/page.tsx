@@ -5,8 +5,9 @@ import * as Yup from "yup";
 
 import Button from "@/components/button";
 import Input from "@/components/input";
+import { User } from "@/types/user";
 import { convertPersianDigitsToEnglish } from "@/utils/convertPersianDigits";
-import { motion } from "framer-motion"; // 👈 Import motion
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -15,9 +16,7 @@ import styles from "./Auth.module.scss";
 const validationSchema = Yup.object({
   phone: Yup.string()
     .transform((value) => convertPersianDigitsToEnglish(value))
-    .test("is-valid-phone", "لطفا اعداد را به صورت لاتین وارد کنید", (value) =>
-      /^[0-9]*$/.test(value ?? "")
-    )
+
     .matches(/^09\d{9}$/, "شماره تلفن معتبر نیست")
     .required("شماره تلفن الزامیست"),
 });
@@ -28,21 +27,21 @@ interface FormValues {
 
 const AuthPage = () => {
   const router = useRouter();
+  const user =
+    typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const [loadingUserData, setLoadingUserData] = useState(true);
+  const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
     if (user) {
       router.replace("/dashboard");
     } else {
       setLoadingUserData(false);
     }
-  }, [router]);
+  }, [router, user]);
 
   const formik = useFormik<FormValues>({
-    initialValues: {
-      phone: "",
-    },
+    initialValues: { phone: "" },
     validationSchema,
     onSubmit: async (
       values: FormValues,
@@ -51,12 +50,12 @@ const AuthPage = () => {
       try {
         const res = await fetch("https://randomuser.me/api/?results=1&nat=us");
         const data = await res.json();
-        const user = data.results[0];
+        const user: User = data.results[0];
         localStorage.setItem("user", JSON.stringify(user));
+        setRedirecting(true);
         router.replace("/dashboard");
         toast.success("بسیار خوش اومدی 🎉");
-      } catch (error) {
-        console.log(error);
+      } catch {
         setFieldError("phone", "خطا در ورود. لطفاً دوباره تلاش کنید.");
         setSubmitting(false);
       }
@@ -91,11 +90,15 @@ const AuthPage = () => {
             required
             minLength={11}
             maxLength={11}
-            disabled={formik.isSubmitting}
+            disabled={formik.isSubmitting || redirecting}
           />
 
-          <Button fullWidth type="submit" disabled={formik.isSubmitting}>
-            {formik.isSubmitting ? "در حال ورود..." : "ورود"}
+          <Button
+            fullWidth
+            type="submit"
+            disabled={formik.isSubmitting || redirecting}
+          >
+            {formik.isSubmitting || redirecting ? "در حال ورود..." : "ورود"}
           </Button>
         </form>
       </motion.div>

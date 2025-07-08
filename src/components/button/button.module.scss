@@ -1,26 +1,48 @@
 @use "@/styles/variables" as *;
+@use "sass:color";
 .button {
-  padding: 0.5rem 1rem;
-  background-color: $primary-color;
-  color: $primary-text;
   font-weight: 600;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: $primary-hover;
-  }
-
-  &:active {
-    background-color: $primary-active;
-  }
+  transition: background-color 0.2s ease;
 
   &:disabled {
     background-color: $button-disabled-bg;
     color: $button-disabled-text;
     cursor: not-allowed;
+  }
+}
+
+.small {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.medium {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.large {
+  font-size: 1.125rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.primary {
+  background-color: $primary-color;
+  color: $primary-text;
+}
+
+.secondary {
+  background-color: color.adjust($card-bg, $lightness: 10%);
+  color: $primary-text;
+
+  &:hover {
+    background-color: color.adjust($card-bg, $lightness: 15%);
+  }
+
+  &:active {
+    background-color: color.adjust($card-bg, $lightness: 5%);
   }
 }
