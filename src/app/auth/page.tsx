@@ -1,16 +1,16 @@
 "use client";
 
-import { FormikHelpers, useFormik } from "formik";
-import * as Yup from "yup";
-
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { User } from "@/types/user";
 import { convertPersianDigitsToEnglish } from "@/utils/convertPersianDigits";
+import confetti from "canvas-confetti";
+import { FormikHelpers, useFormik } from "formik";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import * as Yup from "yup";
 import styles from "./Auth.module.scss";
 
 const validationSchema = Yup.object({
@@ -55,6 +55,7 @@ const AuthPage = () => {
         setRedirecting(true);
         router.replace("/dashboard");
         toast.success("بسیار خوش اومدی 🎉");
+        confetti({ spread: 70 });
       } catch {
         setFieldError("phone", "خطا در ورود. لطفاً دوباره تلاش کنید.");
         setSubmitting(false);

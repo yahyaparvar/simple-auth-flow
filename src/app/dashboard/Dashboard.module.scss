@@ -35,22 +35,3 @@
   font-size: 1.5rem;
   margin: 0;
 }
-
-.logout {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: $primary-text;
-  background-color: red;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1.25rem;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  .icon {
-    font-size: 1.25rem;
-  }
-}
