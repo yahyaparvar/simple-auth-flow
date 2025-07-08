@@ -72,9 +72,13 @@ const DashboardPage = () => {
         >
           خوش اومدی {user.name.first} جان!
         </motion.h1>
-
-        <Button size="medium" variant="secondary" onClick={handleLogout}>
-          <FiLogOut className={styles.icon} /> Logout
+        <Button
+          size="medium"
+          iconLeft={<FiLogOut fontWeight={600} />}
+          variant="secondary"
+          onClick={handleLogout}
+        >
+          خروج
         </Button>
       </motion.div>
     </div>
