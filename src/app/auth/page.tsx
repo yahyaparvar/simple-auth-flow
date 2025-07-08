@@ -47,7 +47,7 @@ const AuthPage = () => {
           <Input
             label="شماره موبایل"
             name="phone"
-            placeholder="مثلاً 09123456789"
+            placeholder="09123456789"
             value={formik.values.phone}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
